@@ -106,20 +106,45 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # alias vim="nvim"
+alias python=python3
 alias ez="nvim ${HOME}/.zshrc"
+alias ep="nvim ${HOME}/.zsh_private_vars"
 alias sz="source ${HOME}/.zshrc"
 
+### ESP related aliases
 alias get_idf='export IDF_PATH=/opt/esp/esp-idf IDF_TOOLS_PATH=$HOME/.espressif; . /opt/esp/esp-idf/export.sh'
 alias get_idf_nc='export IDF_PATH=/opt/esp/esp-idf-nc IDF_TOOLS_PATH=$HOME/.espressif-nc; . /opt/esp/esp-idf-nc/export.sh'
+alias get_idf_hosted='export IDF_PATH=/opt/esp/esp-idf-hosted IDF_TOOLS_PATH=$HOME/.espressif-hosted; . /opt/esp/esp-idf-hosted/export.sh'
+alias get_idf_airbridge='export IDF_PATH=/opt/esp/esp-idf-airbridge IDF_TOOLS_PATH=$HOME/.espressif-airbridge; . /opt/esp/esp-idf-airbridge/export.sh'
 alias stm_flash='st-flash write ./build/bin/sbsfu_nano.bin 0x08000000'
 alias stm_make='make -j PROJECT=project'
 alias cubeconn="/home/gdaneels/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin/STM32_Programmer_CLI -c port=SWD freq=4000 mode=UR "
 
-alias python=python3
+# script to kill ZScaler ZSTray
+alias kz='~/.local/bin/kill-zscaler.sh'
 
-alias todo='nvim ~/Documents/todo.md'
+# load SDK to develop for iMX6 - Murata image
+alias sdk_murata='source /home/gdaneels/workspace/murata-wireless/sdk/environment-setup-cortexa7t2hf-neon-poky-linux-gnueabi'
+alias sdk_1zm='source /home/gdaneels/workspace/acos/sdk/environment-setup-cortexa7t2hf-neon-poky-linux-gnueabi'
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias todo_open='nvim ~/Documents/todos/todo.md'
+alias todo_git='/usr/bin/git --git-dir=$HOME/Documents/todos/.git --work-tree=$HOME/Documents/todos/'
+function todo() {
+    if [[ -n "$1" ]]
+    then
+        # use todo_git alias defined above
+        todo_git add todo.md
+        # use message given as argument
+        todo_git commit -m "$1"
+        todo_git push origin HEAD
+    else
+        todo_open
+    fi
+}
 
 # change autosuggestions color for solarized theme
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
+
+# add date and time before command line
+PROMPT='%F{yellow}[%D{%f/%m/%y} %D{%K:%M:%S}] '$PROMPT
