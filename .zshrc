@@ -116,16 +116,25 @@ alias get_idf='export IDF_PATH=/opt/esp/esp-idf IDF_TOOLS_PATH=$HOME/.espressif;
 alias get_idf_nc='export IDF_PATH=/opt/esp/esp-idf-nc IDF_TOOLS_PATH=$HOME/.espressif-nc; . /opt/esp/esp-idf-nc/export.sh'
 alias get_idf_hosted='export IDF_PATH=/opt/esp/esp-idf-hosted IDF_TOOLS_PATH=$HOME/.espressif-hosted; . /opt/esp/esp-idf-hosted/export.sh'
 alias get_idf_airbridge='export IDF_PATH=/opt/esp/esp-idf-airbridge IDF_TOOLS_PATH=$HOME/.espressif-airbridge; . /opt/esp/esp-idf-airbridge/export.sh'
-alias stm_flash='st-flash write ./build/bin/sbsfu_nano.bin 0x08000000'
-alias stm_make='make -j PROJECT=project'
+# alias stm_flash='st-flash write ./build/bin/sbsfu_nano.bin 0x08000000'
+# alias stm_make='make -j PROJECT=project'
 alias cubeconn="/home/gdaneels/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin/STM32_Programmer_CLI -c port=SWD freq=4000 mode=UR "
+alias flash_mk6='make -j && cubeconn -w artifacts/mk6_ctrl.bin 0x70000000 -v -vb 2 --extload /home/gdaneels/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin/ExternalLoader/MX25LM25645G_MK6.stldr'
 
 # script to kill ZScaler ZSTray
 alias kz='~/.local/bin/kill-zscaler.sh'
+# restart zscaler service
+alias rzs='sudo systemctl restart zsaservice.service'
+# stop zscaler service
+alias szs='sudo systemctl stop zsaservice.service'
 
 # load SDK to develop for iMX6 - Murata image
 alias sdk_murata='source /home/gdaneels/workspace/murata-wireless/sdk/environment-setup-cortexa7t2hf-neon-poky-linux-gnueabi'
-alias sdk_1zm='source /home/gdaneels/workspace/acos/sdk/environment-setup-cortexa7t2hf-neon-poky-linux-gnueabi'
+alias sdk_1zm='source /home/gdaneels/workspace/acos-imx6ull/sdk/environment-setup-cortexa7t2hf-neon-poky-linux-gnueabi'
+alias sdk_imx9='source /home/gdaneels/workspace/acos-imx9/sdk/environment-setup-cortexa55-poky-linux'
+alias sdk_mk6='source /home/gdaneels/workspace/mk6-prototype/sdk/environment-setup-cortexa55-poky-linux'
+alias run_qemu='/home/gdaneels/workspace/mk6-prototype/acos/meta-mk6-bsp/scripts/run-qemu-imx93 /home/gdaneels/workspace/mk6-prototype/acos/build/tmp/deploy/images/mk6'
+alias remove_taps='sudo ip link delete tap-mk6-end0; sudo ip link delete tap-mk6-end1'
 
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias todo_open='nvim ~/Documents/todos/todo.md'
@@ -136,7 +145,7 @@ function todo() {
         # use todo_git alias defined above
         todo_git add todo.md
         # use message given as argument
-        todo_git commit -m "$1"
+        todo_git commit -m "Update from $(date +%d.%m.%y-%H:%M:%S)"
         todo_git push origin HEAD
     else
         todo_open
@@ -148,3 +157,20 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
 
 # add date and time before command line
 PROMPT='%F{yellow}[%D{%f/%m/%y} %D{%K:%M:%S}] '$PROMPT
+
+# Only changing the escape key to `jk` in insert mode, we still
+# keep using the default keybindings `^[` in other modes
+ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export END0=192.168.1.10
+export END1=192.168.101.10
+
+# AirBridge / Mk5 Link setings
+export AIRBRIDGE_SW_VERSION=1
+export AIRBRIDGE_BUILD_ID=1
+export AIRBRIDGE_CONSOLE_PORT=uart
+export AIRBRIDGE_BUILD_TYPE=dev
