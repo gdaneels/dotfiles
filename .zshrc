@@ -120,6 +120,7 @@ alias get_idf_airbridge='export IDF_PATH=/opt/esp/esp-idf-airbridge IDF_TOOLS_PA
 # alias stm_make='make -j PROJECT=project'
 alias cubeconn="/home/gdaneels/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin/STM32_Programmer_CLI -c port=SWD freq=4000 mode=UR "
 alias flash_mk6='make -j && cubeconn -w artifacts/mk6_ctrl.bin 0x70000000 -v -vb 2 --extload /home/gdaneels/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin/ExternalLoader/MX25LM25645G_MK6.stldr'
+alias flash_mk6_2='make -j && /home/gdaneels/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin/STM32_Programmer_CLI -c port=SWD freq=4000 mode=UR -w artifacts/mk6_ctrl.bin 0x70000000 -v -vb 2 --extload /home/gdaneels/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin/ExternalLoader/MX25LM25645G_MK6.stldr'
 
 # script to kill ZScaler ZSTray
 alias kz='~/.local/bin/kill-zscaler.sh'
@@ -127,6 +128,7 @@ alias kz='~/.local/bin/kill-zscaler.sh'
 alias rzs='sudo systemctl restart zsaservice.service'
 # stop zscaler service
 alias szs='sudo systemctl stop zsaservice.service'
+alias kkz='kz && szs'
 
 # load SDK to develop for iMX6 - Murata image
 alias sdk_murata='source /home/gdaneels/workspace/murata-wireless/sdk/environment-setup-cortexa7t2hf-neon-poky-linux-gnueabi'
@@ -143,7 +145,7 @@ function todo() {
     if [[ -n "$1" ]]
     then
         # use todo_git alias defined above
-        todo_git add todo.md
+        todo_git add todo.md tjournal.db tjournal.json
         # use message given as argument
         todo_git commit -m "Update from $(date +%d.%m.%y-%H:%M:%S)"
         todo_git push origin HEAD
@@ -151,6 +153,8 @@ function todo() {
         todo_open
     fi
 }
+
+alias ide="tmux new-session \; send-keys 'nvim .' C-m \; split-window -v -l33% \;"
 
 # change autosuggestions color for solarized theme
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
