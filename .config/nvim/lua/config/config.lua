@@ -33,5 +33,9 @@ vim.api.nvim_set_keymap('n', '<leader>p', ':echo expand(\'%\')<cr>', { noremap=f
 -- quit
 vim.api.nvim_set_keymap('n', '<leader>x', ':q<cr>', { noremap=false })
 
--- quit
+-- show config.lua
 vim.api.nvim_set_keymap('n', '<leader>v', ':e ~/.config/nvim/lua/config/config.lua<cr>', { noremap=false })
+
+vim.api.nvim_set_keymap('i', '<M-CR>', 'copilot#Accept("<CR>")', { expr=true, noremap = true, silent = true })
+vim.g.copilot_no_tab_map = true
+
